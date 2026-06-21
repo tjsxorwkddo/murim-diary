@@ -4038,7 +4038,10 @@ function showToast(message) {
   document.querySelector(".toast-wrap")?.remove();
   const wrap = document.createElement("div");
   wrap.className = "toast-wrap";
-  wrap.innerHTML = `<div class="toast">${message}</div>`;
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = String(message ?? "");
+  wrap.appendChild(toast);
   document.body.appendChild(wrap);
   toastTimer = setTimeout(() => wrap.remove(), 1800);
 }
@@ -4048,8 +4051,8 @@ function showModal(title, message) {
   wrap.className = "modal-backdrop";
   wrap.innerHTML = `
     <section class="modal">
-      <h2>${title}</h2>
-      <p>${message}</p>
+      <h2>${escapeHtml(title)}</h2>
+      <p>${escapeHtml(message)}</p>
       <div class="modal-actions"><button class="primary-btn" data-close-modal>좋습니다</button></div>
     </section>
   `;

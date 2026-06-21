@@ -1,9 +1,9 @@
-const CACHE_NAME = "murim-diary-v23";
+const CACHE_NAME = "murim-diary-v24";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./style.css?v=23",
-  "./script.js?v=23",
+  "./style.css?v=24",
+  "./script.js?v=24",
   "./manifest.json",
   "./assets/app-icon.svg",
   "./assets/app-icon-180.png",
