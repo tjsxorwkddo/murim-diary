@@ -1552,12 +1552,13 @@ async function replaceBodyPhotosInStore(photos) {
 
 async function saveBodyPhoto(file, dateKey = formatDateKey(new Date())) {
   if (!file) return;
-  if (!file.type?.startsWith("image/")) {
-    showToast("이미지 파일만 기록할 수 있습니다.");
+  if (!isImageFileCandidate(file)) {
+    showToast("사진 파일만 기록할 수 있습니다.");
     return;
   }
   const previousPhotos = [...state.bodyPhotos];
   try {
+    showToast("사진 저장 중...");
     const image = await compressBodyPhoto(file);
     const existingIndex = state.bodyPhotos.findIndex((entry) => entry.date === dateKey);
     const entry = {
@@ -1580,10 +1581,17 @@ async function saveBodyPhoto(file, dateKey = formatDateKey(new Date())) {
     saveState();
     showToast("몸 사진 기록 완료");
     render();
-  } catch {
+  } catch (error) {
+    console.warn("Body photo save failed", error);
     state.bodyPhotos = previousPhotos;
-    showToast("사진을 저장하지 못했습니다. 사진 용량을 줄이거나 다른 이미지를 선택해보십시오.");
+    showToast("사진을 저장하지 못했습니다. 다른 사진으로 다시 시도해보십시오.");
   }
+}
+
+function isImageFileCandidate(file) {
+  if (!file) return false;
+  if (file.type?.startsWith("image/")) return true;
+  return /\.(avif|bmp|gif|heic|heif|jpe?g|png|webp)$/i.test(file.name || "");
 }
 
 function compressBodyPhoto(file) {
@@ -1591,8 +1599,15 @@ function compressBodyPhoto(file) {
     const reader = new FileReader();
     reader.onerror = reject;
     reader.onload = () => {
+      const originalDataUrl = String(reader.result || "");
       const img = new Image();
-      img.onerror = reject;
+      img.onerror = () => {
+        if (originalDataUrl.startsWith("data:image/")) {
+          resolve(originalDataUrl);
+        } else {
+          reject(new Error("Image decode failed"));
+        }
+      };
       img.onload = () => {
         const maxSide = 960;
         const ratio = Math.min(1, maxSide / Math.max(img.width, img.height));
@@ -1602,10 +1617,18 @@ function compressBodyPhoto(file) {
         canvas.width = width;
         canvas.height = height;
         const context = canvas.getContext("2d");
-        context.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL("image/jpeg", 0.82));
+        if (!context) {
+          resolve(originalDataUrl);
+          return;
+        }
+        try {
+          context.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL("image/jpeg", 0.82));
+        } catch {
+          resolve(originalDataUrl);
+        }
       };
-      img.src = reader.result;
+      img.src = originalDataUrl;
     };
     reader.readAsDataURL(file);
   });
@@ -3737,8 +3760,10 @@ function bindAppEvents() {
     saveWeightGoal(event.currentTarget);
   });
   app.querySelector("[data-clear-weight-goal]")?.addEventListener("click", clearWeightGoal);
-  app.querySelector("[data-body-photo-input]")?.addEventListener("change", (event) => {
-    saveBodyPhoto(event.currentTarget.files?.[0]);
+  app.querySelector("[data-body-photo-input]")?.addEventListener("change", async (event) => {
+    const input = event.currentTarget;
+    await saveBodyPhoto(input.files?.[0]);
+    input.value = "";
   });
   app.querySelector("[data-delete-body-photo]")?.addEventListener("click", (event) => {
     deleteBodyPhoto(event.currentTarget.dataset.deleteBodyPhoto);
