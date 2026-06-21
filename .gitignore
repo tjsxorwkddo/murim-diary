@@ -1,0 +1,12 @@
+# Legacy mini-game assets kept locally, but excluded from deploy commits.
+assets/backgrounds/arena.png
+assets/backgrounds/ink-wash-ui.png
+assets/fighters/cheonma.png
+assets/fighters/enemy.svg
+assets/fighters/hwasan.png
+assets/fighters/mudang.png
+assets/fighters/sorim.png
+
+# Source-size generated original; the app uses the optimized JPG.
+assets/ui/realm-vignette.png
+

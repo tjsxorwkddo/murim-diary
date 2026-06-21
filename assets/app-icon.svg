@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="무협일지 아이콘">
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fbf7ec"/>
+      <stop offset="1" stop-color="#ead9b9"/>
+    </linearGradient>
+    <linearGradient id="seal" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#b23b2e"/>
+      <stop offset="1" stop-color="#7e241d"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#paper)"/>
+  <path d="M80 112c92-38 245-39 352 0v288c-103-36-255-36-352 0V112Z" fill="#181713" opacity=".08"/>
+  <circle cx="256" cy="256" r="150" fill="url(#seal)"/>
+  <circle cx="256" cy="256" r="128" fill="none" stroke="#fbf7ec" stroke-width="12" opacity=".86"/>
+  <path d="M156 270c74-16 133-57 188-126 10 54-5 100-45 139 28 7 55 5 81-4-40 48-91 73-153 75 17-23 24-47 22-72-29 18-60 30-93 35 19-15 30-31 34-47h-34Z" fill="#fbf7ec"/>
+  <path d="M217 143h78l-10 62 52-34-25 74 56 8-62 41 18 72-67-38-61 45 18-76-70-26 72-21 1-107Z" fill="#181713" opacity=".14"/>
+  <path d="M180 392h152" stroke="#181713" stroke-width="18" stroke-linecap="round" opacity=".22"/>
+</svg>

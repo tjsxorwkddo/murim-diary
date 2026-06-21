@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>무협일지</title>
+    <meta name="description" content="체중과 수련을 기록하고 내공, 경지, 무공으로 성장하는 무협 자기계발 앱" />
+    <meta name="theme-color" content="#fbf7ec" />
+    <meta name="application-name" content="무협일지" />
+    <meta name="apple-mobile-web-app-title" content="무협일지" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/app-icon-180.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Noto+Serif+KR:wght@500;700;900&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css?v=22" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="script.js?v=22"></script>
+    <script>
+      if ("serviceWorker" in navigator && location.protocol !== "file:") {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("service-worker.js").catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>
